@@ -43,6 +43,7 @@
   </main>
 
   {{ partial "docs/inject/body" . }}
+  {{ partial "docs/inject/custom-scripts" . }}
 </body>
 </html>
 
@@ -73,9 +74,9 @@
 {{ end }}
 
 {{ define "main" }}
-  <article class="markdown">
-    {{- .Content -}}
-  </article>
+<article class="markdown">
+  {{- partial "docs/content" . -}}
+</article>
 {{ end }}
 
 {{ define "toc" }}
