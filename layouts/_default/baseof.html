@@ -75,10 +75,12 @@
 
 {{ define "main" }}
 <article class="markdown">
-  {{- partial "docs/content" . -}}
+  {{- .Content -}}
 </article>
 {{ end }}
 
 {{ define "toc" }}
   {{ partial "docs/toc" . }}
 {{ end }}
+
+
