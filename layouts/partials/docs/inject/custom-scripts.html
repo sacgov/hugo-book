@@ -1,0 +1,8 @@
+
+{{ range $elem := .Site.Params.CustomCSS }}
+    <link rel="stylesheet" href="{{ $elem | absURL }}">
+{{- end }}
+
+{{ range $elem :=  .Site.Params.CustomJS }}
+    <script type="text/javascript" src="{{ $elem | absURL }}"></script>
+{{- end }}
