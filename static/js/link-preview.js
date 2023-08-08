@@ -36,18 +36,20 @@ window.addEventListener("load", function () {
   function showTooltip(event) {
     var elem = event.target;
     var elem_props = elem.getClientRects()[elem.getClientRects().length - 1];
-    var top = window.pageYOffset || document.documentElement.scrollTop;
+    var top = window.scrollY || document.documentElement.scrollTop;
     var url = event.target.getAttribute("href");
     if (
       url.indexOf("http") === -1 ||
       url.indexOf(window.location.host) !== -1
     ) {
+      console.log("entering here")
       let contentURL = url.split("#")[0];
       if (!linkHistories[contentURL]) {
         iframe.src = contentURL;
         iframe.onload = function () {
           tooltipContentHtml =
             iframe.contentWindow.document.querySelector(".markdown").innerHTML;
+          console.log(tooltipContentHtml.length,"length")
           tooltipContent.innerHTML = tooltipContentHtml;
           linkHistories[contentURL] = tooltipContentHtml;
           tooltipWrapper.style.display = "block";
@@ -127,6 +129,7 @@ window.addEventListener("load", function () {
   function setupListeners(linkElement) {
     
     linkElement.addEventListener("mouseleave", function (_event) {
+      console.log("mouseLeave", linkElement)
       hideTooltip();
     });
 
@@ -137,6 +140,7 @@ window.addEventListener("load", function () {
     linkElement.addEventListener("mouseenter", function (event) {
       clearTimeout(opacityTimeout);
       clearTimeout(contentTimeout);
+      console.log("mouseEnter", linkElement)
       showTooltip(event);
     });
 
@@ -145,6 +149,15 @@ window.addEventListener("load", function () {
       clearTimeout(contentTimeout);
     });
   }
-  document.querySelectorAll(".internal-link").forEach(setupListeners);
-  document.querySelectorAll(".backlink-card a").forEach(setupListeners);
+
+  // function listInternalLinks
+  document.querySelectorAll("a").forEach(function(link){
+    const href = link.getAttribute("href")
+    if(href.startsWith("#") || href.startsWith("/")) {
+      // console.log(link)
+      setupListeners(link)
+    }
+  });
 });
+
+
