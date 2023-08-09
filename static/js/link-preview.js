@@ -47,8 +47,13 @@ window.addEventListener("load", function () {
       if (!linkHistories[contentURL]) {
         iframe.src = contentURL;
         iframe.onload = function () {
-          tooltipContentHtml =
-            iframe.contentWindow.document.querySelector(".markdown").innerHTML;
+
+
+          let content = iframe.contentWindow.document.querySelector(".markdown");
+          if (content.firstChild.nodeName == "H1") {
+            content.removeChild(content.firstElementChild)
+          }
+          tooltipContentHtml = content.innerHTML;
           console.log(tooltipContentHtml.length,"length")
           tooltipContent.innerHTML = tooltipContentHtml;
           linkHistories[contentURL] = tooltipContentHtml;
